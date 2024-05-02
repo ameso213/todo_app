@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <style>
+        /* css styles */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('templates/sno.png'); 
+            
+            background-size: cover;
+            
+            background-repeat: no-repeat;
+            
+            text-align: justify;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: skyblue;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color:black;">Todo App</h1>
+        
+        <input type="text" id="taskInput" placeholder="Enter task">
+        <button onclick="addTask()">Add Task</button>
+        
+        <ul id="taskList"></ul>
+    
+    </div>
+
+    <script>
+        let tasks = {};
+
+        function addTask() {
+            let taskInput = document.getElementById("taskInput");
+            let task = taskInput.value.trim();
+            if (task !== "") {
+                tasks[task] = { description: "" };
+                displayTasks();
+                taskInput.value = "";
+            }
+        }
+
+        function updateTask(task) {
+            let newDescription = prompt("Enter new description:");
+            if (newDescription !== null) {
+                tasks[task].description = newDescription;
+                displayTasks();
+            }
+        }
+
+        function deleteTask(task) {
+            if (confirm("Are you sure you want to delete this task?")) {
+                delete tasks[task];
+                displayTasks();
+            }
+        }
+
+        function displayTasks() {
+            let taskList = document.getElementById("taskList");
+            taskList.innerHTML = "";
+            for (let task in tasks) {
+                let li = document.createElement("li");
+                let description = tasks[task].description ? `- ${tasks[task].description}` : "";
+                li.innerHTML = `${task} ${description} <button onclick="updateTask('${task}')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button> <button onclick="deleteTask('${task}')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>`;
+                taskList.appendChild(li);
+            }
+        }
+
+         displayTasks();
+    </script>
+</body>
+</html>
